@@ -542,7 +542,7 @@ function App() {
                       <div className="text-sm text-gray-400 truncate">{stock.name}</div>
                     </div>
                     <div className="text-right">
-                      <div className="font-semibold text-white">{formatPrice(stock.price)}</div>
+                      <div className="font-semibold text-white">₹{stock.price.toFixed(2)}</div>
                       <div className={`text-sm flex items-center ${stock.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                         {stock.change >= 0 ? <TrendingUp className="h-3 w-3 mr-1" /> : <TrendingDown className="h-3 w-3 mr-1" />}
                         {stock.change_percent.toFixed(2)}%
