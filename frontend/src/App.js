@@ -9,6 +9,7 @@ const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001
 
 function App() {
   const [selectedStock, setSelectedStock] = useState('AAPL');
+  const [customStock, setCustomStock] = useState('');
   const [stockData, setStockData] = useState([]);
   const [analysis, setAnalysis] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -16,6 +17,7 @@ function App() {
   const [chatResponse, setChatResponse] = useState(null);
   const [trendingStocks, setTrendingStocks] = useState([]);
   const [activeTab, setActiveTab] = useState('analysis');
+  const [stockError, setStockError] = useState('');
 
   useEffect(() => {
     fetchTrendingStocks();
