@@ -181,15 +181,20 @@ async def analyze_with_groq(symbol: str, data: pd.DataFrame, news: List[Dict], q
         news_summary = "\n".join([f"- {item['title']}: {item['summary'][:100]}..." for item in news[:3]])
         
         # Advanced prompt for Groq
+        sma_20_str = f"${tech_indicators['sma_20']:.2f}" if tech_indicators['sma_20'] else "N/A"
+        sma_50_str = f"${tech_indicators['sma_50']:.2f}" if tech_indicators['sma_50'] else "N/A"
+        rsi_str = f"{tech_indicators['rsi']:.2f}" if tech_indicators['rsi'] else "N/A"
+        macd_str = f"{tech_indicators['macd']:.4f}" if tech_indicators['macd'] else "N/A"
+        
         prompt = f"""
         You are an expert financial analyst and portfolio manager. Analyze the following stock data for {symbol} and provide comprehensive insights.
 
         CURRENT MARKET DATA:
         - Current Price: ${tech_indicators['current_price']:.2f}
-        - 20-day SMA: ${tech_indicators['sma_20']:.2f if tech_indicators['sma_20'] else 'N/A'}
-        - 50-day SMA: ${tech_indicators['sma_50']:.2f if tech_indicators['sma_50'] else 'N/A'}
-        - RSI: {tech_indicators['rsi']:.2f if tech_indicators['rsi'] else 'N/A'}
-        - MACD: {tech_indicators['macd']:.4f if tech_indicators['macd'] else 'N/A'}
+        - 20-day SMA: {sma_20_str}
+        - 50-day SMA: {sma_50_str}
+        - RSI: {rsi_str}
+        - MACD: {macd_str}
         - Volume: {tech_indicators['volume']:,}
         - Price Change (20 days): {tech_indicators['price_change_pct']:.2f}%
 
