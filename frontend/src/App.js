@@ -487,7 +487,7 @@ function App() {
                   type="text"
                   value={chatQuery}
                   onChange={(e) => setChatQuery(e.target.value)}
-                  placeholder={`Ask anything about ${selectedStock}...`}
+                  placeholder={`Ask anything about ${selectedStock.replace('.NS', '')}...`}
                   className="flex-1 bg-slate-800 text-white px-4 py-2 rounded-lg border border-purple-500/50 focus:border-purple-400 focus:outline-none"
                   onKeyPress={(e) => e.key === 'Enter' && handleChatQuery()}
                 />
