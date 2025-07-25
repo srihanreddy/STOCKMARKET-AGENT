@@ -10,7 +10,7 @@ async def test_websocket():
     try:
         print("🔌 Testing WebSocket connection...")
         
-        async with websockets.connect(uri, timeout=10) as websocket:
+        async with websockets.connect(uri) as websocket:
             print("✅ WebSocket connected successfully")
             
             # Send stock subscription message
