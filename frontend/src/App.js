@@ -8,7 +8,7 @@ import './App.css';
 const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
 function App() {
-  const [selectedStock, setSelectedStock] = useState('AAPL');
+  const [selectedStock, setSelectedStock] = useState('RELIANCE.NS');
   const [customStock, setCustomStock] = useState('');
   const [stockData, setStockData] = useState([]);
   const [analysis, setAnalysis] = useState(null);
@@ -18,6 +18,7 @@ function App() {
   const [trendingStocks, setTrendingStocks] = useState([]);
   const [activeTab, setActiveTab] = useState('analysis');
   const [stockError, setStockError] = useState('');
+  const [isCustomStock, setIsCustomStock] = useState(false);
 
   useEffect(() => {
     fetchTrendingStocks();
