@@ -181,16 +181,21 @@ async def analyze_with_groq(symbol: str, data: pd.DataFrame, news: List[Dict], q
         news_summary = "\n".join([f"- {item['title']}: {item['summary'][:100]}..." for item in news[:3]])
         
         # Advanced prompt for Groq
-        sma_20_str = f"${tech_indicators['sma_20']:.2f}" if tech_indicators['sma_20'] else "N/A"
-        sma_50_str = f"${tech_indicators['sma_50']:.2f}" if tech_indicators['sma_50'] else "N/A"
+        sma_20_str = f"₹{tech_indicators['sma_20']:.2f}" if tech_indicators['sma_20'] else "N/A"
+        sma_50_str = f"₹{tech_indicators['sma_50']:.2f}" if tech_indicators['sma_50'] else "N/A"
         rsi_str = f"{tech_indicators['rsi']:.2f}" if tech_indicators['rsi'] else "N/A"
         macd_str = f"{tech_indicators['macd']:.4f}" if tech_indicators['macd'] else "N/A"
         
+        # Determine if it's an NSE stock
+        is_nse_stock = ".NS" in symbol
+        currency = "₹" if is_nse_stock else "$"
+        market_context = "NSE (National Stock Exchange of India)" if is_nse_stock else "US Stock Market"
+        
         prompt = f"""
-        You are an expert financial analyst and portfolio manager. Analyze the following stock data for {symbol} and provide comprehensive insights.
+        You are an expert financial analyst specializing in {market_context}. Analyze the following stock data for {symbol} and provide comprehensive insights.
 
         CURRENT MARKET DATA:
-        - Current Price: ${tech_indicators['current_price']:.2f}
+        - Current Price: {currency}{tech_indicators['current_price']:.2f}
         - 20-day SMA: {sma_20_str}
         - 50-day SMA: {sma_50_str}
         - RSI: {rsi_str}
@@ -204,12 +209,12 @@ async def analyze_with_groq(symbol: str, data: pd.DataFrame, news: List[Dict], q
         USER QUERY: {query}
 
         Please provide:
-        1. Comprehensive technical analysis
-        2. Fundamental outlook based on news
-        3. Risk assessment (Low/Medium/High)
-        4. Specific actionable recommendations
+        1. Comprehensive technical analysis considering {market_context} conditions
+        2. Fundamental outlook based on news and market context
+        3. Risk assessment (Low/Medium/High) specific to Indian market conditions
+        4. Specific actionable recommendations for Indian investors
         5. Confidence score (0-100)
-        6. Market timing considerations
+        6. Market timing considerations for NSE trading hours
 
         Format your response as a detailed analysis followed by clear recommendations.
         """
