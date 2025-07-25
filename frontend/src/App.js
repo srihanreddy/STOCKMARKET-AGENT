@@ -226,20 +226,32 @@ function App() {
         <div className="mb-8">
           <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/20">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-3xl font-bold text-white">{selectedStock}</h2>
+              <div>
+                <h2 className="text-3xl font-bold text-white">{selectedStock}</h2>
+                <p className="text-purple-300 text-sm mt-1">NSE: National Stock Exchange of India</p>
+              </div>
               <div className="flex items-center space-x-4">
                 <div className="text-right">
                   <div className="text-3xl font-bold text-white">
-                    {formatPrice(currentPrice)}
+                    ₹{currentPrice.toFixed(2)}
                   </div>
                   <div className={`flex items-center space-x-1 ${priceChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                     {priceChange >= 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
-                    <span>{priceChange >= 0 ? '+' : ''}{formatPrice(priceChange)}</span>
+                    <span>{priceChange >= 0 ? '+' : ''}₹{priceChange.toFixed(2)}</span>
                     <span>({priceChangePercent.toFixed(2)}%)</span>
                   </div>
                 </div>
               </div>
             </div>
+            
+            {stockError && (
+              <div className="mb-4 p-3 bg-red-900/30 border border-red-500/50 rounded-lg">
+                <div className="flex items-center space-x-2">
+                  <AlertCircle className="h-5 w-5 text-red-400" />
+                  <span className="text-red-300">{stockError}</span>
+                </div>
+              </div>
+            )}
             
             {/* Chart */}
             <div className="h-96">
@@ -259,7 +271,7 @@ function App() {
                   />
                   <YAxis 
                     stroke="#9ca3af"
-                    tickFormatter={(value) => `$${value}`}
+                    tickFormatter={(value) => `₹${value}`}
                   />
                   <Tooltip 
                     contentStyle={{
@@ -268,7 +280,7 @@ function App() {
                       borderRadius: '8px',
                       color: 'white'
                     }}
-                    formatter={(value) => [formatPrice(value), 'Price']}
+                    formatter={(value) => [`₹${value.toFixed(2)}`, 'Price']}
                   />
                   <Area 
                     type="monotone" 
