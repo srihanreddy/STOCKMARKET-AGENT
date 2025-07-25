@@ -171,19 +171,50 @@ function App() {
               </span>
             </div>
             <div className="flex items-center space-x-4">
-              <select
-                value={selectedStock}
-                onChange={(e) => setSelectedStock(e.target.value)}
-                className="bg-slate-800 text-white px-4 py-2 rounded-lg border border-purple-500/50 focus:border-purple-400 focus:outline-none"
-              >
-                <option value="AAPL">Apple (AAPL)</option>
-                <option value="GOOGL">Google (GOOGL)</option>
-                <option value="MSFT">Microsoft (MSFT)</option>
-                <option value="TSLA">Tesla (TSLA)</option>
-                <option value="AMZN">Amazon (AMZN)</option>
-                <option value="NVDA">NVIDIA (NVDA)</option>
-                <option value="META">Meta (META)</option>
-              </select>
+              <div className="flex items-center space-x-2">
+                <select
+                  value={isCustomStock ? 'custom' : selectedStock}
+                  onChange={(e) => {
+                    if (e.target.value === 'custom') {
+                      setIsCustomStock(true);
+                    } else {
+                      handleStockChange(e.target.value);
+                    }
+                  }}
+                  className="bg-slate-800 text-white px-4 py-2 rounded-lg border border-purple-500/50 focus:border-purple-400 focus:outline-none"
+                >
+                  <option value="RELIANCE.NS">Reliance Industries</option>
+                  <option value="TCS.NS">Tata Consultancy Services</option>
+                  <option value="HDFCBANK.NS">HDFC Bank</option>
+                  <option value="INFY.NS">Infosys</option>
+                  <option value="ICICIBANK.NS">ICICI Bank</option>
+                  <option value="HINDUNILVR.NS">Hindustan Unilever</option>
+                  <option value="ITC.NS">ITC Limited</option>
+                  <option value="SBIN.NS">State Bank of India</option>
+                  <option value="BHARTIARTL.NS">Bharti Airtel</option>
+                  <option value="KOTAKBANK.NS">Kotak Mahindra Bank</option>
+                  <option value="custom">Enter Custom Symbol</option>
+                </select>
+                
+                {isCustomStock && (
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="text"
+                      value={customStock}
+                      onChange={(e) => setCustomStock(e.target.value)}
+                      placeholder="Enter NSE symbol (e.g., WIPRO)"
+                      className="bg-slate-800 text-white px-4 py-2 rounded-lg border border-purple-500/50 focus:border-purple-400 focus:outline-none w-48"
+                      onKeyPress={(e) => e.key === 'Enter' && handleCustomStockSubmit()}
+                    />
+                    <button
+                      onClick={handleCustomStockSubmit}
+                      className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                    >
+                      <Search className="h-4 w-4" />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
