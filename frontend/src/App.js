@@ -41,17 +41,49 @@ function App() {
     }
   };
 
-  const fetchStockData = async () => {
+  const fetchStockData = async (symbol = null) => {
+    const stockSymbol = symbol || selectedStock;
     setLoading(true);
+    setStockError('');
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/stock/${selectedStock}/data`);
+      const response = await axios.get(`${API_BASE_URL}/api/stock/${stockSymbol}/data`);
       setStockData(response.data.data);
     } catch (error) {
       console.error('Error fetching stock data:', error);
-      toast.error('Failed to fetch stock data');
+      setStockError(`Failed to fetch data for ${stockSymbol}. Please check if the symbol is valid.`);
+      toast.error(`Failed to fetch stock data for ${stockSymbol}`);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleStockChange = (symbol) => {
+    setSelectedStock(symbol);
+    setIsCustomStock(false);
+    setAnalysis(null);
+    setChatResponse(null);
+    setStockError('');
+  };
+
+  const handleCustomStockSubmit = () => {
+    if (!customStock.trim()) {
+      toast.error('Please enter a stock symbol');
+      return;
+    }
+    
+    let stockSymbol = customStock.trim().toUpperCase();
+    
+    // Add .NS suffix if not already present for NSE stocks
+    if (!stockSymbol.includes('.NS') && !stockSymbol.includes('.')) {
+      stockSymbol = `${stockSymbol}.NS`;
+    }
+    
+    setSelectedStock(stockSymbol);
+    setIsCustomStock(true);
+    setAnalysis(null);
+    setChatResponse(null);
+    setStockError('');
+    fetchStockData(stockSymbol);
   };
 
   const analyzeStock = async () => {
