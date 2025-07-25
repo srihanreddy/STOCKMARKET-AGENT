@@ -346,10 +346,14 @@ async def get_stock_chart_data(symbol: str, period: str = "1y"):
 
 @app.get("/api/market/trending")
 async def get_trending_stocks():
-    """Get trending stocks"""
+    """Get trending NSE stocks"""
     try:
-        # Popular stocks for demo
-        trending_symbols = ["AAPL", "GOOGL", "MSFT", "TSLA", "AMZN", "NVDA"]
+        # Popular NSE stocks
+        trending_symbols = [
+            "RELIANCE.NS", "TCS.NS", "HDFCBANK.NS", "INFY.NS", 
+            "ICICIBANK.NS", "HINDUNILVR.NS", "ITC.NS", "SBIN.NS",
+            "BHARTIARTL.NS", "KOTAKBANK.NS"
+        ]
         trending_data = []
         
         for symbol in trending_symbols:
@@ -359,12 +363,13 @@ async def get_trending_stocks():
                 hist = stock.history(period="1d")
                 if not hist.empty:
                     latest = hist.iloc[-1]
+                    previous = hist.iloc[-2] if len(hist) > 1 else hist.iloc[-1]
                     trending_data.append({
                         "symbol": symbol,
-                        "name": info.get("longName", symbol),
+                        "name": info.get("longName", symbol.replace(".NS", "")),
                         "price": float(latest['Close']),
-                        "change": float(latest['Close'] - latest['Open']),
-                        "change_percent": float(((latest['Close'] - latest['Open']) / latest['Open']) * 100)
+                        "change": float(latest['Close'] - previous['Close']),
+                        "change_percent": float(((latest['Close'] - previous['Close']) / previous['Close']) * 100)
                     })
             except Exception as e:
                 logger.error(f"Error getting data for {symbol}: {str(e)}")
