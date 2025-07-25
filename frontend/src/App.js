@@ -389,7 +389,7 @@ function App() {
                     <div className="flex justify-between items-center">
                       <span className="text-gray-300">Current Price</span>
                       <span className="text-white font-semibold">
-                        {formatPrice(analysis.technical_indicators.current_price)}
+                        ₹{analysis.technical_indicators.current_price.toFixed(2)}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -401,7 +401,7 @@ function App() {
                     <div className="flex justify-between items-center">
                       <span className="text-gray-300">20-day SMA</span>
                       <span className="text-white font-semibold">
-                        {analysis.technical_indicators.sma_20 ? formatPrice(analysis.technical_indicators.sma_20) : 'N/A'}
+                        {analysis.technical_indicators.sma_20 ? `₹${analysis.technical_indicators.sma_20.toFixed(2)}` : 'N/A'}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
