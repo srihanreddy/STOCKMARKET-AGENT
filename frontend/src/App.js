@@ -534,7 +534,7 @@ function App() {
                 <div
                   key={index}
                   className="bg-slate-800/50 rounded-lg p-4 border border-purple-500/30 hover:border-purple-400 transition-colors cursor-pointer"
-                  onClick={() => setSelectedStock(stock.symbol)}
+                  onClick={() => handleStockChange(stock.symbol)}
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div>
