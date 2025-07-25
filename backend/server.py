@@ -222,7 +222,7 @@ async def analyze_with_groq(symbol: str, data: pd.DataFrame, news: List[Dict], q
         # Generate analysis with Groq
         response = groq_client.chat.completions.create(
             messages=[
-                {"role": "system", "content": "You are a world-class financial analyst with 20+ years of experience. Provide detailed, actionable investment advice based on technical and fundamental analysis."},
+                {"role": "system", "content": "You are a world-class financial analyst with 20+ years of experience in Indian stock markets and NSE. Provide detailed, actionable investment advice based on technical and fundamental analysis, considering Indian market conditions, regulations, and investor sentiment."},
                 {"role": "user", "content": prompt}
             ],
             model="llama3-70b-8192",
